@@ -9,13 +9,13 @@ import java.util.Map;
 
 public class ClubLectura {
     /*
-    Nombre:
-    Grupo de practicas:
+    Nombre: Irene Lombardo Cabrera
+    Grupo de practicas: IWSIM12
     */
 
     // Incluir atributos
     // Grafo NO DIRIGIDO que contiene los lectores del club de lectura
-    // Lista de vertices del grafo
+    // TODO Lista de vertices del grafo ?????
 
     private final GrafoMA red;
     private final Lector[] lectores;
@@ -68,29 +68,34 @@ public class ClubLectura {
     }
 
     public boolean[] inicializa_visitados() {
-        boolean[] visitados = new boolean[numLectores]; // To-Do: Modificar. Tantos como vertices
+        boolean[] visitados = new boolean[numLectores];
         for(int i = 0; i < numLectores; i++){
             visitados[i] = false;
         }
-        return visitados; // Array de visitados por defecto (ninguno visitado)
+        return visitados;
     }
 
-    public List<Lector> getAmigos(Lector lector) { // Obtener lista de amigos directos
+    public List<Lector> getAmigos(Lector lector) {
         List<Lector> amigos = new ArrayList<>();
-        if(red.verticeEnRango(getIndice(lector))){
-
+        if(lector!= null) {
+            if (red.verticeEnRango(getIndice(lector))) {
+                for (int i = 0; i < numLectores; i++) {
+                    if (red.existeArista(getIndice(lector), i)) amigos.add(lectores[i]);
+                }
+            }
         }
-        // ToDo: Completar getAmigos.
-        // Si el lector existe y esta en el grafo, devuelve una lista con los amigos
-        // Si el lector no existe o no esta en el grafo, devuelve una lista vacia
         return amigos;
     }
 
-    public List<Lector> getGrupo(Lector lector) { // Obtener lista de grupo de amigos del lector
+    public List<Lector> getGrupo(Lector lector) {
         List<Lector> grupo = new ArrayList<>();
-        // ToDo: Completar getGrupo. Apoyate en recorridoEnProfundidadGD de GrafoMA sin modificarlo.
-        // Si el lector existe y esta en el grafo, devuelve una lista con los amigos
-        // Si el lector no existe o no esta en el grafo, devuelve una lista vacia
+        if(lector!=null) {
+            boolean[] visitados = new boolean[numLectores];
+            red.recorridoEnProfundidad(getIndice(lector), visitados);
+            for (int i = 0; i < numLectores; i++) {
+                if (visitados[i]) grupo.add(lectores[i]);
+            }
+        }
         return grupo;
     }
 
@@ -116,9 +121,6 @@ public class ClubLectura {
         // Si hay empate entre varios generos, devuelve cualquiera de ellos
         // Utiliza un TreeMap para contar la frecuencia de cada genero entre los amigos del grupo
         return "";
-
-        //que
-
     }
 
 }
