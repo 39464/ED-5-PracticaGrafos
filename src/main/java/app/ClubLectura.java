@@ -102,25 +102,40 @@ public class ClubLectura {
     public List<Lector> mayorGrupo() {
         List<Lector> mayor = new ArrayList<>();
         boolean[] visitados_global = inicializa_visitados();
-        // ToDo: Completar mayorGrupo. Devuelve el grupo de amigos mas grande del club de lectura.
-        // Apoyate en recorridoEnProfundidadGD de GrafoMA sin modificarlo.
-        // Pista: puedes gestionar un array de visitados global y otro local para cada grupo
+        for(int i = 0; i < numLectores; i++){
+            if(!visitados_global[i]) {
+                List<Lector> aux = this.getGrupo(lectores[i]);
+                if (aux.size() > mayor.size()) {
+                    mayor = aux;
+                }
+            }
+        }
         return mayor;
     }
 
     public int contarGrupos() {
         int numGrupos = 0;
-        // ToDo: Completar contarGrupos. Devuelve el numero de grupos de amigos distintos que hay en el club de lectura.
-        // Apoyate en recorridoEnProfundidadGD de GrafoMA sin modificarlo.
+        boolean[] visitados = new boolean[numLectores];
+        for(int i = 0; i < numLectores; i++){
+            if(!visitados[i]){
+                red.recorridoEnProfundidad(i, visitados);
+                numGrupos++;
+            }
+        }
         return numGrupos;
     }
 
     public String generoMasFrecuenteGrupo(Lector lector) {
+        String resultado = "";
+        if(lector != null){
+            List<Lector> grupo = this.getGrupo(lector);
+
+        }
         // ToDo: Completar generoMasFrecuenteGrupo. Devuelve el genero mas frecuente entre los amigos del grupo de un lector.
         // Si no existe el lector o no esta en el grafo, devuelve cadena vacia
         // Si hay empate entre varios generos, devuelve cualquiera de ellos
         // Utiliza un TreeMap para contar la frecuencia de cada genero entre los amigos del grupo
-        return "";
+        return resultado;
     }
 
 }
