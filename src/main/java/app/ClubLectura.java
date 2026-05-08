@@ -13,10 +13,6 @@ public class ClubLectura {
     Grupo de practicas: IWSIM12
     */
 
-    // Incluir atributos
-    // Grafo NO DIRIGIDO que contiene los lectores del club de lectura
-    // TODO Lista de vertices del grafo ?????
-
     private final GrafoMA red;
     private final Lector[] lectores;
     private final Map<Lector, Integer> indiceLectores; // Mapa para obtener el indice de un lector en el grafo
@@ -90,10 +86,12 @@ public class ClubLectura {
     public List<Lector> getGrupo(Lector lector) {
         List<Lector> grupo = new ArrayList<>();
         if(lector!=null) {
-            boolean[] visitados = new boolean[numLectores];
-            red.recorridoEnProfundidad(getIndice(lector), visitados);
-            for (int i = 0; i < numLectores; i++) {
-                if (visitados[i]) grupo.add(lectores[i]);
+            if(getIndice(lector) != -1 ) {
+                boolean[] visitados = new boolean[numLectores];
+                red.recorridoEnProfundidad(getIndice(lector), visitados);
+                for (int i = 0; i < numLectores; i++) {
+                    if (visitados[i]) grupo.add(lectores[i]);
+                }
             }
         }
         return grupo;
@@ -127,8 +125,9 @@ public class ClubLectura {
 
     public String generoMasFrecuenteGrupo(Lector lector) {
         String resultado = "";
-        if(lector != null){
-            List<Lector> grupo = this.getGrupo(lector);
+        List<Lector> grupo = this.getGrupo(lector);
+        if(!grupo.isEmpty()){
+
 
         }
         // ToDo: Completar generoMasFrecuenteGrupo. Devuelve el genero mas frecuente entre los amigos del grupo de un lector.

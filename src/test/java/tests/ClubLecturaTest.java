@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ClubLecturaImplementationTest {
+public class ClubLecturaTest {
     private String captureOutput(Runnable action) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
