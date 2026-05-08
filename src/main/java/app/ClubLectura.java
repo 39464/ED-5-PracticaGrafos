@@ -42,7 +42,6 @@ public class ClubLectura {
     }
 
     public int getIndice(Lector l) {
-        // Devuelve el indice del lector en el grafo, o -1 si no existe
         return this.indiceLectores.getOrDefault(l, -1);
     }
 
@@ -86,8 +85,8 @@ public class ClubLectura {
     public List<Lector> getGrupo(Lector lector) {
         List<Lector> grupo = new ArrayList<>();
         if(lector!=null) {
-            if(getIndice(lector) != -1 ) {
-                boolean[] visitados = new boolean[numLectores];
+            if(getIndice(lector) != -1) {
+                boolean[] visitados = inicializa_visitados();
                 red.recorridoEnProfundidad(getIndice(lector), visitados);
                 for (int i = 0; i < numLectores; i++) {
                     if (visitados[i]) grupo.add(lectores[i]);
@@ -113,7 +112,7 @@ public class ClubLectura {
 
     public int contarGrupos() {
         int numGrupos = 0;
-        boolean[] visitados = new boolean[numLectores];
+        boolean[] visitados = inicializa_visitados();
         for(int i = 0; i < numLectores; i++){
             if(!visitados[i]){
                 red.recorridoEnProfundidad(i, visitados);
@@ -126,14 +125,23 @@ public class ClubLectura {
     public String generoMasFrecuenteGrupo(Lector lector) {
         String resultado = "";
         List<Lector> grupo = this.getGrupo(lector);
-        if(!grupo.isEmpty()){
-
-
+        TreeMap<String, Integer> arbolGrupo = null;
+        if (!grupo.isEmpty()) {
+            arbolGrupo = new TreeMap<>();
+            for (int i = 0; i < grupo.size(); i++) {
+                String genAux = grupo.get(i).getGeneroLibroFavorito();
+                int frec = arbolGrupo.getOrDefault(genAux, 0);
+                if (frec == 0) arbolGrupo.put(genAux, 1);
+                else arbolGrupo.put(genAux, frec + 1);
+            }
+            int mayor = 0;
+            for (Map.Entry<String, Integer> entry : arbolGrupo.entrySet()) {
+                if (entry.getValue() > mayor) {
+                    resultado = entry.getKey();
+                    mayor = entry.getValue();
+                }
+            }
         }
-        // ToDo: Completar generoMasFrecuenteGrupo. Devuelve el genero mas frecuente entre los amigos del grupo de un lector.
-        // Si no existe el lector o no esta en el grafo, devuelve cadena vacia
-        // Si hay empate entre varios generos, devuelve cualquiera de ellos
-        // Utiliza un TreeMap para contar la frecuencia de cada genero entre los amigos del grupo
         return resultado;
     }
 
